@@ -15,18 +15,7 @@
     />
 
     <style>
-      #navbar-toggle {
-        cursor: pointer;
-      }
-
-      #navbar-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        z-index: 20;
-        display: none;
-      }
+      
 
       .seat-button {
         background-color: #4a5568;
@@ -66,6 +55,7 @@
   <body class="bg-gray-900 text-white">
     <nav class="bg-gray-800 p-4 fixed w-full z-10 shadow-lg">
       <div class="container mx-auto flex justify-between items-center">
+        <!-- Logo -->
         <a class="flex items-center text-blue-400" href="#">
           <img
             src="https://i.pinimg.com/736x/1c/c4/c9/1cc4c9eb92e33ecb9239635bab7a5428.jpg"
@@ -74,6 +64,8 @@
           />
           <span class="text-xl font-bold">Dunia Bioskop</span>
         </a>
+    
+        <!-- Menu Desktop -->
         <div class="hidden md:flex space-x-6">
           <a
             class="flex items-center hover:text-blue-400 transition duration-300"
@@ -94,6 +86,8 @@
             <i class="fa fa-user mr-1"></i> Profil
           </a>
         </div>
+    
+        <!-- Hamburger Icon -->
         <button
           class="md:hidden flex items-center text-blue-400 focus:outline-none"
           id="navbar-toggle"
@@ -101,39 +95,41 @@
           <i class="fa fa-bars"></i>
         </button>
       </div>
+    
+      <!-- Menu Mobile -->
+      <div
+        class="hidden flex-col bg-gray-800 md:hidden transition-all duration-300"
+        id="navbar-menu"
+      >
+        <a
+          class="py-2 px-4 flex items-center hover:bg-gray-700 transition"
+          href="<%= url %>"
+        >
+          <i class="fa fa-home mr-2"></i> Beranda
+        </a>
+        <a
+          class="py-2 px-4 flex items-center hover:bg-gray-700 transition"
+          href="<%= url %>todos"
+        >
+          <i class="fa fa-film mr-2"></i> Film
+        </a>
+        <a
+          class="py-2 px-4 flex items-center hover:bg-gray-700 transition"
+          href="<%= url %>profile"
+        >
+          <i class="fa fa-user mr-2"></i> Profil
+        </a>
+      </div>
     </nav>
 
-    <div class="md:hidden" id="navbar-menu">
-      <ul class="flex flex-col space-y-2 p-4 bg-gray-800">
-        <li>
-          <a
-            class="flex items-center hover:text-blue-400 transition duration-300"
-            href="<%= url %>"
-            ><i class="fa fa-home mr-1"></i> Beranda</a
-          >
-        </li>
-        <li>
-          <a
-            class="flex items-center hover:text-blue-400 transition duration-300"
-            href="<%= url %>todos"
-            ><i class="fa fa-film mr-1"></i> Film</a
-          >
-        </li>
-        <li>
-          <a
-            class="flex items-center hover:text-blue-400 transition duration-300"
-            href="<%= url %>profile"
-            ><i class="fa fa-user mr-1"></i> Profil</a
-          >
-        </li>
-      </ul>
-    </div>
+
 
     <div class="container mx-auto mt-20 p-5">
       <h1 class="text-3xl font-bold mb-5 text-blue-400">
         Pemesanan Tiket Bioskop
       </h1>
 
+      <!-- Detail Film -->
       <div id="movieDetail" class="bg-gray-800 p-5 rounded-lg shadow-lg mb-5">
         <img
           id="movieImage"
@@ -147,7 +143,9 @@
         ></h2>
       </div>
 
+      <!-- Form Pemesanan Tiket -->
       <form id="ticketForm" class="bg-gray-800 p-5 rounded-lg shadow-lg">
+        <!-- Input dan Pilihan untuk Tiket -->
         <div class="mb-4">
           <label for="film" class="block text-sm font-medium"
             >Film yang Dipilih</label
@@ -159,7 +157,6 @@
             class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md p-2 cursor-not-allowed"
           />
         </div>
-
         <div class="mb-4">
           <label for="schedule" class="block text-sm font-medium"
             >Pilih Jadwal</label
@@ -175,48 +172,43 @@
             <option value="21:30">21:30 WIB</option>
           </select>
         </div>
-
         <div class="mb-4">
           <label class="block text-sm font-medium">Pilih Kursi</label>
           <div class="grid grid-cols-5 gap-2 mt-2">
-            <button
-              type="button"
-              class="seat-button"
-              onclick="selectSeat(this)"
-            >
-              A1
-            </button>
-            <button
-              type="button"
-              class="seat-button"
-              onclick="selectSeat(this)"
-            >
-              A2
-            </button>
-            <button
-              type="button"
-              class="seat-button"
-              onclick="selectSeat(this)"
-            >
-              A3
-            </button>
-            <button
-              type="button"
-              class="seat-button"
-              onclick="selectSeat(this)"
-            >
-              A4
-            </button>
-            <button
-              type="button"
-              class="seat-button"
-              onclick="selectSeat(this)"
-            >
-              A5
-            </button>
+            <!-- Baris A -->
+            <button type="button" class="seat-button" onclick="selectSeat(this)">A1</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">A2</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">A3</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">A4</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">A5</button>
+            <!-- Baris B -->
+            <button type="button" class="seat-button" onclick="selectSeat(this)">B1</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">B2</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">B3</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">B4</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">B5</button>
+            <!-- Baris C -->
+            <button type="button" class="seat-button" onclick="selectSeat(this)">C1</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">C2</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">C3</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">C4</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">C5</button>
+            <!-- Baris D -->
+            <button type="button" class="seat-button" onclick="selectSeat(this)">D1</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">D2</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">D3</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">D4</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">D5</button>
+            <!-- Baris E -->
+            <button type="button" class="seat-button" onclick="selectSeat(this)">E1</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">E2</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">E3</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">E4</button>
+            <button type="button" class="seat-button" onclick="selectSeat(this)">E5</button>
           </div>
         </div>
-
+        
+        </div>
         <div class="mb-4">
           <label for="payment" class="block text-sm font-medium"
             >Metode Pembayaran</label
@@ -230,7 +222,6 @@
             <option value="e_wallet">Dompet Digital</option>
           </select>
         </div>
-
         <button
           type="submit"
           class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded"
@@ -239,6 +230,40 @@
         </button>
       </form>
 
+      <!-- Tambahan: Tombol dan Tabel untuk Melihat Tiket -->
+      <div class="mt-5">
+        <button
+          id="viewTicketsButton"
+          class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded"
+        >
+          Lihat Tiket yang Dipesan
+        </button>
+      </div>
+
+      <div
+        id="ticketsList"
+        class="mt-5 hidden bg-gray-800 p-5 rounded-lg shadow-lg"
+      >
+        <h2 class="text-xl font-bold">Tiket yang Anda Pesan:</h2>
+        <table
+          class="w-full text-left text-gray-300 mt-3 border-collapse border border-gray-600"
+        >
+        <thead>
+          <tr>
+            <th class="border border-gray-600 p-2">Kode Tiket</th>
+            <th class="border border-gray-600 p-2">Film</th>
+            <th class="border border-gray-600 p-2">Jadwal</th>
+            <th class="border border-gray-600 p-2">Kursi</th>
+            <th class="border border-gray-600 p-2">Pembayaran</th>
+            <th class="border border-gray-600 p-2">Aksi</th>
+          </tr>
+        </thead>
+        
+          <tbody id="ticketsTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- Kode Tiket -->
       <div
         id="ticketCode"
         class="mt-5 hidden bg-gray-800 p-5 rounded-lg shadow-lg"
@@ -318,6 +343,77 @@
         codeElement.innerText = randomCode;
         ticketCodeDiv.classList.remove("hidden");
       });
+
+      //
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const film = document.getElementById("film").value;
+        const schedule = document.getElementById("schedule").value;
+        const selectedSeats = Array.from(
+          document.querySelectorAll(".seat-button.selected")
+        ).map((seat) => seat.innerText);
+        const payment = document.getElementById("payment").value;
+
+        if (!film || !schedule || selectedSeats.length === 0 || !payment) {
+          alert("Harap lengkapi semua data sebelum memesan!");
+          return;
+        }
+
+        const randomCode = "TK-" + Math.floor(Math.random() * 100000);
+        const ticket = {
+          code: randomCode,
+          film,
+          schedule,
+          seats: selectedSeats.join(", "),
+          payment,
+        };
+
+        const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+        tickets.push(ticket);
+        localStorage.setItem("tickets", JSON.stringify(tickets));
+
+        codeElement.innerText = randomCode;
+        ticketCodeDiv.classList.remove("hidden");
+      });
+
+      document.getElementById("viewTicketsButton").addEventListener("click", function () {
+  const ticketsList = document.getElementById("ticketsList");
+  const ticketsTableBody = document.getElementById("ticketsTableBody");
+
+  ticketsTableBody.innerHTML = ""; // Kosongkan tabel
+  const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  if (tickets.length === 0) {
+    ticketsTableBody.innerHTML = `<tr><td colspan="6" class="text-center p-2">Tidak ada tiket yang dipesan.</td></tr>`;
+  } else {
+    tickets.forEach((ticket, index) => {
+      const row = `
+      <tr>
+        <td class="border border-gray-600 p-2">${ticket.code}</td>
+        <td class="border border-gray-600 p-2">${ticket.film}</td>
+        <td class="border border-gray-600 p-2">${ticket.schedule}</td>
+        <td class="border border-gray-600 p-2">${ticket.seats}</td>
+        <td class="border border-gray-600 p-2">${ticket.payment}</td>
+        <td class="border border-gray-600 p-2">
+          <button class="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
+            onclick="cancelTicket(${index})">Batalkan</button>
+        </td>
+      </tr>
+      `;
+      ticketsTableBody.innerHTML += row;
+    });
+  }
+  ticketsList.classList.remove("hidden");
+});
+
+// Fungsi untuk membatalkan tiket
+function cancelTicket(index) {
+  const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  tickets.splice(index, 1); // Hapus tiket berdasarkan index
+  localStorage.setItem("tickets", JSON.stringify(tickets)); // Perbarui localStorage
+  alert("Tiket berhasil dibatalkan!");
+  document.getElementById("viewTicketsButton").click(); // Refresh daftar tiket
+}
+
     </script>
   </body>
 </html>
