@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pemesanan Tiket - Dunia Bioskop</title>
+    <!-- Tailwind CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      #navbar-toggle {
+        cursor: pointer;
+      }
+
+      #navbar-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 20;
+        display: none;
+      }
+
+      .seat-button {
+        background-color: #4a5568;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .seat-button:hover {
+        background-color: #2d3748;
+      }
+
+      .seat-button.selected {
+        background-color: #38a169;
+      }
+
+      #movieImage {
+        max-width: 200px;
+        height: auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      #movieImage:hover {
+        transform: scale(1.05);
+      }
+
+      input[readonly] {
+        background-color: rgba(75, 85, 99, 0.5) !important;
+        color: #fff !important;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-900 text-white">
+    <nav class="bg-gray-800 p-4 fixed w-full z-10 shadow-lg">
+      <div class="container mx-auto flex justify-between items-center">
+        <a class="flex items-center text-blue-400" href="#">
+          <img
+            src="https://i.pinimg.com/736x/1c/c4/c9/1cc4c9eb92e33ecb9239635bab7a5428.jpg"
+            alt="Logo Bioskop"
+            class="h-10 mr-2"
+          />
+          <span class="text-xl font-bold">Dunia Bioskop</span>
+        </a>
+        <div class="hidden md:flex space-x-6">
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>"
+          >
+            <i class="fa fa-home mr-1"></i> Beranda
+          </a>
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>todos"
+          >
+            <i class="fa fa-film mr-1"></i> Film
+          </a>
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>profile"
+          >
+            <i class="fa fa-user mr-1"></i> Profil
+          </a>
+        </div>
+        <button
+          class="md:hidden flex items-center text-blue-400 focus:outline-none"
+          id="navbar-toggle"
+        >
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    </nav>
+
+    <div class="md:hidden" id="navbar-menu">
+      <ul class="flex flex-col space-y-2 p-4 bg-gray-800">
+        <li>
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>"
+            ><i class="fa fa-home mr-1"></i> Beranda</a
+          >
+        </li>
+        <li>
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>todos"
+            ><i class="fa fa-film mr-1"></i> Film</a
+          >
+        </li>
+        <li>
+          <a
+            class="flex items-center hover:text-blue-400 transition duration-300"
+            href="<%= url %>profile"
+            ><i class="fa fa-user mr-1"></i> Profil</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div class="container mx-auto mt-20 p-5">
+      <h1 class="text-3xl font-bold mb-5 text-blue-400">
+        Pemesanan Tiket Bioskop
+      </h1>
+
+      <div id="movieDetail" class="bg-gray-800 p-5 rounded-lg shadow-lg mb-5">
+        <img
+          id="movieImage"
+          src=""
+          alt="Movie Poster"
+          class="w-48 rounded-lg mx-auto mb-4"
+        />
+        <h2
+          id="movieTitle"
+          class="text-xl font-bold text-center text-blue-400 mb-2"
+        ></h2>
+      </div>
+
+      <form id="ticketForm" class="bg-gray-800 p-5 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="film" class="block text-sm font-medium"
+            >Film yang Dipilih</label
+          >
+          <input
+            type="text"
+            id="film"
+            readonly
+            class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md p-2 cursor-not-allowed"
+          />
+        </div>
+
+        <div class="mb-4">
+          <label for="schedule" class="block text-sm font-medium"
+            >Pilih Jadwal</label
+          >
+          <select
+            id="schedule"
+            class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+          >
+            <option value="10:00">10:00 WIB</option>
+            <option value="13:00">13:00 WIB</option>
+            <option value="16:00">16:00 WIB</option>
+            <option value="19:00">19:00 WIB</option>
+            <option value="21:30">21:30 WIB</option>
+          </select>
+        </div>
+
+        <div class="mb-4">
+          <label class="block text-sm font-medium">Pilih Kursi</label>
+          <div class="grid grid-cols-5 gap-2 mt-2">
+            <button
+              type="button"
+              class="seat-button"
+              onclick="selectSeat(this)"
+            >
+              A1
+            </button>
+            <button
+              type="button"
+              class="seat-button"
+              onclick="selectSeat(this)"
+            >
+              A2
+            </button>
+            <button
+              type="button"
+              class="seat-button"
+              onclick="selectSeat(this)"
+            >
+              A3
+            </button>
+            <button
+              type="button"
+              class="seat-button"
+              onclick="selectSeat(this)"
+            >
+              A4
+            </button>
+            <button
+              type="button"
+              class="seat-button"
+              onclick="selectSeat(this)"
+            >
+              A5
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <label for="payment" class="block text-sm font-medium"
+            >Metode Pembayaran</label
+          >
+          <select
+            id="payment"
+            class="mt-1 block w-full bg-gray-700 border border-gray-600 rounded-md p-2"
+          >
+            <option value="credit_card">Kartu Kredit</option>
+            <option value="bank_transfer">Transfer Bank</option>
+            <option value="e_wallet">Dompet Digital</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded"
+        >
+          Pesan Tiket
+        </button>
+      </form>
+
+      <div
+        id="ticketCode"
+        class="mt-5 hidden bg-gray-800 p-5 rounded-lg shadow-lg"
+      >
+        <h2 class="text-xl font-bold">Kode Tiket Anda:</h2>
+        <p id="code" class="mt-2 text-blue-400"></p>
+      </div>
+    </div>
+
+    <script>
+      const movieData = {
+        "Den of Thieves 2: Pantera": {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173347020029722_290x426.jpg",
+          title: "Den of Thieves 2: Pantera",
+        },
+        "The Prosecutor": {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173338511328812_290x426.jpg",
+          title: "The Prosecutor",
+        },
+        "Sonic the Hedgehog 3": {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173338498787278_290x426.jpg",
+          title: "Sonic the Hedgehog 3",
+        },
+        "Mufasa: The Lion King": {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173330898736407_290x426.jpg",
+          title: "Mufasa: The Lion King",
+        },
+        "Utusan Iblis": {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173371712055774_290x426.jpg",
+          title: "Utusan Iblis",
+        },
+        Wicked: {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173028689721914_290x426.jpg",
+          title: "Wicked",
+        },
+        Ketindihan: {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173433414771272_290x426.jpg",
+          title: "Ketindihan",
+        },
+        Surup: {
+          image:
+            "https://media.21cineplex.com/webcontent/gallery/pictures/173381659593571_290x426.jpg",
+          title: "Surup",
+        },
+        // Tambahkan film lain jika diperlukan
+      };
+
+      window.onload = function () {
+        const selectedMovie = localStorage.getItem("selectedMovie");
+        if (selectedMovie && movieData[selectedMovie]) {
+          document.getElementById("film").value = selectedMovie;
+          document.getElementById("movieImage").src =
+            movieData[selectedMovie].image;
+          document.getElementById("movieTitle").innerText =
+            movieData[selectedMovie].title;
+        }
+      };
+
+      function selectSeat(seat) {
+        seat.classList.toggle("selected");
+      }
+
+      const form = document.getElementById("ticketForm");
+      const ticketCodeDiv = document.getElementById("ticketCode");
+      const codeElement = document.getElementById("code");
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const randomCode = "TK-" + Math.floor(Math.random() * 100000);
+        codeElement.innerText = randomCode;
+        ticketCodeDiv.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>
