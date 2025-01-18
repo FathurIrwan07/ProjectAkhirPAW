@@ -37,11 +37,11 @@
       }
       .card {
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adding transition for smooth effect */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
       .card:hover {
-        transform: scale(1.05); /* Slightly enlarges the card on hover */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for a more pronounced effect */
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       }
       .modal-content {
         border-radius: 10px;
@@ -70,7 +70,7 @@
     </nav>
 
     <div class="container mt-5">
-      <h1 class="text-center mb-4">Todos List</h1>
+      <h1 class="text-center mb-4">Film List</h1>
 
       <div class="text-center mb-4">
         <button
@@ -84,7 +84,7 @@
       </div>
 
       <div class="row">
-        <% if (todos.length > 0) { %> <% todos.forEach(todo => { %>
+        <% if (todos && todos.length > 0) { %> <% todos.forEach(todo => { %>
         <div class="col-md-4 mb-3">
           <div class="card">
             <div class="card-body">
@@ -124,7 +124,7 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Edit Todo</h5>
+                <h5 class="modal-title">Edit Film</h5>
                 <button
                   type="button"
                   class="btn-close"
@@ -142,9 +142,9 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="nama"
-                      name="nama"
-                      value="<%= todo.nama %>"
+                      id="jenis"
+                      name="jenis"
+                      value="<%= todo.jenis %>"
                       required
                     />
                   </div>
@@ -195,7 +195,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Tambah Todo</h5>
+            <h5 class="modal-title">Tambah Film</h5>
             <button
               type="button"
               class="btn-close"
@@ -206,7 +206,7 @@
           <form action="<%= url + 'todos/save' %>" method="POST">
             <div class="modal-body">
               <div class="form-group">
-                <label for="film">Jenis</label>
+                <label for="jenis">Jenis</label>
                 <input
                   type="text"
                   class="form-control"

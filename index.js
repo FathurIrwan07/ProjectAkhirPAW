@@ -12,15 +12,15 @@ const registerRoutes = require("./src/routes/router-register");
 const contactRoutes = require("./src/routes/router-contact");
 const todosRoutes = require("./src/routes/router-todo");
 const appRoutes = require("./src/routes/router-app");
-const adminRoutes = require("./src/routes/router-admin"); // Tambah router admin
-const userRoutes = require("./src/routes/router-user"); // Tambah router user
+const adminRoutes = require("./src/routes/router-admin");
+const userRoutes = require("./src/routes/router-user");
 
 // Konfigurasi library session
 app.use(
   session({
     resave: false,
     saveUninitialized: false,
-    secret: "t@1k0ch3ng",
+    secret: "t@1k0ch3ng", // Ganti dengan secret key yang lebih aman
     name: "secretName",
     cookie: {
       sameSite: true,
@@ -49,6 +49,7 @@ app.use((req, res, next) => {
   res.locals.isLoggedIn = req.session.loggedin || false;
   res.locals.username = req.session.username || null;
   res.locals.role = req.session.role || null;
+  res.locals.url = "/";
   next();
 });
 
@@ -56,7 +57,6 @@ app.use((req, res, next) => {
 app.use("/public", express.static(path.join(__dirname, "public")));
 
 // Setting folder views dan view engine
-// Set view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
 
@@ -64,30 +64,29 @@ app.set("views", path.join(__dirname, "src", "views"));
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 
+// Rute untuk halaman todos (menampilkan daftar film atau todo)
 app.get("/todos", (req, res) => {
-  const url = "/"; // Atur URL dasar
-  res.render("todos", { url }); // Kirim ke template todos.ejs
+  res.render("todos");
 });
 
 // Rute untuk halaman team
 app.get("/team", (req, res) => {
-  const url = "/";
-  res.render("team", { url });
+  res.render("team");
 });
 
 // Route untuk halaman admin film
 app.get("/admin/film", (req, res) => {
-  res.render("admin/film"); // Render file src/views/admin/film.ejs
+  res.render("admin/film");
 });
 
 // Routes yang memerlukan authentication
 const verifyUser = require("./src/configs/verify");
 
 // Admin routes
-app.use("/admin", require("./src/routes/router-admin"));
+app.use("/admin", verifyUser.isLogin, adminRoutes);
 
 // User routes
-app.use("/user", require("./src/routes/router-user"));
+app.use("/user", verifyUser.isLogin, userRoutes);
 
 // Routes yang bisa diakses setelah login (baik admin maupun user)
 app.use("/contact", contactRoutes);
@@ -97,15 +96,46 @@ app.use("/todos", verifyUser.isLogin, todosRoutes);
 app.use("/", appRoutes);
 
 // Route untuk 404 - Page Not Found
+app.use((req, res) => {
+  res.status(404).render("error", {
+    url: "http://localhost:5050/",
+    title: "Page Not Found",
+    error: "Halaman tidak ditemukan",
+  });
+});
 
 // Middleware untuk penanganan error
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).render("error", {
-    url: "http://localhost:5050/",
-    title: "Internal Server Error",
-    error: err.message,
+    message: "Internal Server Error",
+    error: err,
   });
+});
+
+// API Endpoint untuk menyimpan tiket
+app.post("/tickets", (req, res) => {
+  const { code, film, schedule, seats, payment_method } = req.body;
+
+  // Validasi input
+  if (!code || !film || !schedule || !seats || !payment_method) {
+    return res.status(400).send("All fields are required");
+  }
+
+  const query =
+    "INSERT INTO tickets (code, film, schedule, seats, payment_method) VALUES (?, ?, ?, ?, ?)";
+
+  db.query(
+    query,
+    [code, film, schedule, seats, payment_method],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error saving ticket");
+      }
+      res.status(200).send("Ticket saved successfully");
+    }
+  );
 });
 
 // Gunakan port server

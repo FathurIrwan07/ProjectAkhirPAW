@@ -346,36 +346,52 @@
 
       //
       form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        const film = document.getElementById("film").value;
-        const schedule = document.getElementById("schedule").value;
-        const selectedSeats = Array.from(
-          document.querySelectorAll(".seat-button.selected")
-        ).map((seat) => seat.innerText);
-        const payment = document.getElementById("payment").value;
+  e.preventDefault();
+  const film = document.getElementById("film").value;
+  const schedule = document.getElementById("schedule").value;
+  const selectedSeats = Array.from(
+    document.querySelectorAll(".seat-button.selected")
+  ).map((seat) => seat.innerText);
+  const payment = document.getElementById("payment").value;
 
-        if (!film || !schedule || selectedSeats.length === 0 || !payment) {
-          alert("Harap lengkapi semua data sebelum memesan!");
-          return;
-        }
+  if (!film || !schedule || selectedSeats.length === 0 || !payment) {
+    alert("Harap lengkapi semua data sebelum memesan!");
+    return;
+  }
 
-        const randomCode = "TK-" + Math.floor(Math.random() * 100000);
-        const ticket = {
-          code: randomCode,
-          film,
-          schedule,
-          seats: selectedSeats.join(", "),
-          payment,
-        };
+  // Konfirmasi pemesanan
+  const confirmation = confirm(
+    `Anda akan memesan tiket dengan detail berikut:\n\n` +
+    `Film: ${film}\n` +
+    `Jadwal: ${schedule}\n` +
+    `Kursi: ${selectedSeats.join(", ")}\n` +
+    `Metode Pembayaran: ${payment}\n\n` +
+    `Apakah Anda yakin ingin memesan?`
+  );
 
-        const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
-        tickets.push(ticket);
-        localStorage.setItem("tickets", JSON.stringify(tickets));
+  if (!confirmation) {
+    alert("Pemesanan dibatalkan.");
+    return;
+  }
 
-        codeElement.innerText = randomCode;
-        ticketCodeDiv.classList.remove("hidden");
-      });
+  const randomCode = "TK-" + Math.floor(Math.random() * 100000);
+  const ticket = {
+    code: randomCode,
+    film,
+    schedule,
+    seats: selectedSeats.join(", "),
+    payment,
+  };
 
+  const tickets = JSON.parse(localStorage.getItem("tickets")) || [];
+  tickets.push(ticket);
+  localStorage.setItem("tickets", JSON.stringify(tickets));
+
+  codeElement.innerText = `Kode Tiket: ${randomCode}`;
+  ticketCodeDiv.classList.remove("hidden");
+
+  alert("Tiket berhasil dipesan!");
+});
       document.getElementById("viewTicketsButton").addEventListener("click", function () {
   const ticketsList = document.getElementById("ticketsList");
   const ticketsTableBody = document.getElementById("ticketsTableBody");

@@ -1,4 +1,3 @@
-// controllers/controller-todos.js
 const mysql = require("mysql2/promise");
 const dbConfig = require("../configs/database"); // Memastikan koneksi database menggunakan pool
 const pool = mysql.createPool(dbConfig);
@@ -8,7 +7,8 @@ module.exports = {
   async getTodos(req, res) {
     try {
       const [results] = await pool.execute("SELECT * FROM todos;");
-      res.render("todos", {
+      // Render file film.ejs yang ada di folder views/admin
+      res.render("admin/film", {
         url: "http://localhost:5050/",
         todos: results.length > 0 ? results : [],
       });
@@ -77,7 +77,7 @@ module.exports = {
       const [results] = await pool.execute("SELECT * FROM todos WHERE id = ?", [
         id,
       ]);
-      res.render("edit-todos", { todos: results[0] });
+      res.render("admin/edit-todos", { todos: results[0] }); // Pastikan path file EJS untuk edit benar
     } catch (err) {
       console.error("Error saat mengambil data untuk edit:", err);
       res.send("Gagal mengambil data Todos");
