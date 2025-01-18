@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Todo</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Edit Todo</h1>
+      <form action="/todos/update/<%= todos.id %>" method="POST">
+        <div class="form-group">
+          <label for="film">Film</label>
+          <input
+            type="text"
+            class="form-control"
+            id="film"
+            name="film"
+            value="<%= todos.film %>"
+            required
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="jenis">Jenis</label>
+          <input
+            type="text"
+            class="form-control"
+            id="jenis"
+            name="jenis"
+            value="<%= todos.jenis %>"
+            required
+          />
+        </div>
+        <div class="form-group mt-3">
+          <label for="harga">Harga</label>
+          <input
+            type="number"
+            class="form-control"
+            id="harga"
+            name="harga"
+            value="<%= todos.harga %>"
+            required
+          />
+        </div>
+        <div class="form-group mt-3">
+          <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
